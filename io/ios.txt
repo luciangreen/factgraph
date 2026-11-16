@@ -1,0 +1,402 @@
+factgraph: 200 inputs and outputs, from real runs (io/ios.pl has the same as Prolog facts).
+
+1. closure([f(wheel,part_of,engine),f(carol,part_of,bob),f(bob,part_of,alice),f(wheel,part_of,car),f(wheel,knows,engine)])
+   => [f(bob,part_of,alice),f(carol,part_of,alice),f(carol,part_of,bob),f(engine,knows,wheel),f(wheel,knows,engine),f(wheel,part_of,car),f(wheel,part_of,engine)]
+2. holds([f(car,part_of,alice)], f(wheel,part_of,carol))
+   => error("existence_error(procedure,cases:holds/3)")
+3. why([f(car,part_of,bob),f(alice,part_of,bob),f(piston,part_of,wheel),f(bob,part_of,piston)], f(alice,part_of,piston))
+   => [f(alice,part_of,bob),f(bob,part_of,piston)]
+4. closure([f(piston,knows,car),f(carol,part_of,car),f(alice,part_of,carol),f(bob,part_of,carol),f(engine,part_of,wheel),f(wheel,knows,bob)])
+   => [f(alice,part_of,car),f(alice,part_of,carol),f(bob,knows,wheel),f(bob,part_of,car),f(bob,part_of,carol),f(car,knows,piston),f(carol,part_of,car),f(engine,part_of,wheel),f(piston,knows,car),f(wheel,knows,bob)]
+5. holds([f(bob,part_of,fleet),f(alice,part_of,bob),f(alice,knows,piston),f(wheel,part_of,car)], f(piston,part_of,engine))
+   => error("existence_error(procedure,cases:holds/3)")
+6. why([f(car,part_of,bob),f(wheel,part_of,car),f(car,part_of,alice),f(engine,knows,carol),f(piston,knows,alice)], f(car,part_of,bob))
+   => [f(car,part_of,bob)]
+7. closure([f(carol,knows,wheel),f(bob,knows,wheel),f(fleet,part_of,alice),f(alice,knows,wheel),f(car,part_of,piston),f(wheel,part_of,car)])
+   => [f(alice,knows,wheel),f(bob,knows,wheel),f(car,part_of,piston),f(carol,knows,wheel),f(fleet,part_of,alice),f(wheel,knows,alice),f(wheel,knows,bob),f(wheel,knows,carol),f(wheel,part_of,car),f(wheel,part_of,piston)]
+8. holds([], f(wheel,part_of,piston))
+   => error("existence_error(procedure,cases:holds/3)")
+9. why([f(engine,knows,wheel),f(carol,part_of,fleet)], f(carol,part_of,fleet))
+   => [f(carol,part_of,fleet)]
+10. closure([f(fleet,knows,piston),f(piston,part_of,engine),f(engine,part_of,wheel)])
+   => [f(engine,part_of,wheel),f(fleet,knows,piston),f(piston,knows,fleet),f(piston,part_of,engine),f(piston,part_of,wheel)]
+11. holds([], f(bob,part_of,piston))
+   => error("existence_error(procedure,cases:holds/3)")
+12. why([f(car,knows,alice),f(engine,part_of,wheel),f(wheel,part_of,bob),f(fleet,knows,piston),f(car,part_of,engine)], f(piston,knows,fleet))
+   => [f(fleet,knows,piston)]
+13. closure([f(bob,part_of,carol),f(wheel,knows,bob),f(wheel,part_of,car)])
+   => [f(bob,knows,wheel),f(bob,part_of,carol),f(wheel,knows,bob),f(wheel,part_of,car)]
+14. holds([f(bob,knows,piston),f(carol,knows,wheel)], f(carol,knows,wheel))
+   => error("existence_error(procedure,cases:holds/3)")
+15. why([], f(a,knows,b))
+   => fails
+16. closure([f(wheel,part_of,car),f(wheel,part_of,car),f(fleet,knows,carol)])
+   => [f(carol,knows,fleet),f(fleet,knows,carol),f(wheel,part_of,car)]
+17. holds([f(fleet,part_of,bob),f(piston,knows,engine),f(bob,part_of,car)], f(wheel,part_of,car))
+   => error("existence_error(procedure,cases:holds/3)")
+18. why([f(engine,knows,piston),f(carol,part_of,car),f(piston,part_of,bob)], f(carol,part_of,car))
+   => [f(carol,part_of,car)]
+19. closure([])
+   => []
+20. holds([f(wheel,part_of,car),f(fleet,knows,engine),f(alice,part_of,car)], f(wheel,part_of,fleet))
+   => error("existence_error(procedure,cases:holds/3)")
+21. why([f(bob,part_of,piston),f(wheel,part_of,carol),f(car,part_of,carol),f(wheel,part_of,car),f(fleet,part_of,carol),f(fleet,part_of,alice)], f(fleet,part_of,carol))
+   => [f(fleet,part_of,carol)]
+22. closure([f(fleet,knows,engine),f(piston,knows,engine)])
+   => [f(engine,knows,fleet),f(engine,knows,piston),f(fleet,knows,engine),f(piston,knows,engine)]
+23. holds([f(bob,knows,piston),f(carol,knows,bob)], f(piston,knows,car))
+   => error("existence_error(procedure,cases:holds/3)")
+24. why([f(carol,part_of,fleet),f(engine,knows,alice),f(carol,part_of,alice),f(engine,knows,carol),f(wheel,part_of,car),f(wheel,knows,piston)], f(carol,part_of,fleet))
+   => [f(carol,part_of,fleet)]
+25. closure([f(fleet,part_of,piston),f(engine,knows,piston),f(alice,knows,carol)])
+   => [f(alice,knows,carol),f(carol,knows,alice),f(engine,knows,piston),f(fleet,part_of,piston),f(piston,knows,engine)]
+26. holds([f(engine,knows,carol),f(engine,knows,carol),f(carol,part_of,piston),f(bob,knows,wheel)], f(wheel,knows,fleet))
+   => error("existence_error(procedure,cases:holds/3)")
+27. why([f(car,part_of,bob),f(alice,knows,carol)], f(carol,knows,alice))
+   => [f(alice,knows,carol)]
+28. closure([f(car,knows,alice),f(car,part_of,alice),f(car,part_of,piston),f(wheel,part_of,car),f(wheel,knows,alice)])
+   => [f(alice,knows,car),f(alice,knows,wheel),f(car,knows,alice),f(car,part_of,alice),f(car,part_of,piston),f(wheel,knows,alice),f(wheel,part_of,alice),f(wheel,part_of,car),f(wheel,part_of,piston)]
+29. holds([f(fleet,part_of,alice),f(alice,part_of,carol)], f(piston,part_of,engine))
+   => error("existence_error(procedure,cases:holds/3)")
+30. why([f(bob,part_of,fleet),f(engine,part_of,piston),f(bob,knows,fleet),f(bob,knows,alice)], f(alice,knows,bob))
+   => [f(bob,knows,alice)]
+31. closure([f(alice,knows,wheel),f(piston,part_of,carol),f(piston,knows,carol),f(wheel,part_of,car)])
+   => [f(alice,knows,wheel),f(carol,knows,piston),f(piston,knows,carol),f(piston,part_of,carol),f(wheel,knows,alice),f(wheel,part_of,car)]
+32. holds([f(carol,knows,engine),f(piston,part_of,bob),f(wheel,part_of,car),f(alice,knows,piston),f(car,part_of,engine)], f(carol,knows,bob))
+   => error("existence_error(procedure,cases:holds/3)")
+33. why([f(carol,knows,car),f(alice,knows,engine),f(fleet,part_of,piston),f(piston,part_of,carol),f(engine,knows,car),f(alice,knows,wheel)], f(fleet,part_of,piston))
+   => [f(fleet,part_of,piston)]
+34. closure([f(car,part_of,engine),f(fleet,knows,engine),f(wheel,part_of,car),f(wheel,part_of,car),f(wheel,knows,car)])
+   => [f(car,knows,wheel),f(car,part_of,engine),f(engine,knows,fleet),f(fleet,knows,engine),f(wheel,knows,car),f(wheel,part_of,car),f(wheel,part_of,engine)]
+35. holds([f(carol,part_of,wheel),f(carol,part_of,bob),f(engine,part_of,bob),f(carol,knows,wheel),f(wheel,part_of,car)], f(car,part_of,bob))
+   => error("existence_error(procedure,cases:holds/3)")
+36. why([f(car,knows,alice),f(carol,part_of,bob),f(alice,knows,wheel),f(wheel,part_of,car),f(carol,part_of,fleet)], f(alice,knows,car))
+   => [f(car,knows,alice)]
+37. closure([f(wheel,part_of,car),f(car,knows,carol),f(bob,knows,wheel),f(piston,part_of,car),f(wheel,part_of,car),f(wheel,part_of,car)])
+   => [f(bob,knows,wheel),f(car,knows,carol),f(carol,knows,car),f(piston,part_of,car),f(wheel,knows,bob),f(wheel,part_of,car)]
+38. holds([f(car,knows,alice),f(alice,knows,engine)], f(car,part_of,wheel))
+   => error("existence_error(procedure,cases:holds/3)")
+39. why([f(bob,knows,alice),f(alice,knows,engine),f(bob,knows,carol),f(wheel,part_of,car),f(car,part_of,fleet)], f(bob,knows,carol))
+   => [f(bob,knows,carol)]
+40. closure([f(bob,part_of,car),f(wheel,knows,bob),f(piston,knows,carol),f(wheel,part_of,car),f(fleet,knows,alice)])
+   => [f(alice,knows,fleet),f(bob,knows,wheel),f(bob,part_of,car),f(carol,knows,piston),f(fleet,knows,alice),f(piston,knows,carol),f(wheel,knows,bob),f(wheel,part_of,car)]
+41. holds([f(piston,part_of,fleet),f(engine,part_of,fleet)], f(wheel,part_of,engine))
+   => error("existence_error(procedure,cases:holds/3)")
+42. why([f(engine,knows,wheel),f(engine,part_of,fleet)], f(engine,part_of,fleet))
+   => [f(engine,part_of,fleet)]
+43. closure([f(carol,part_of,piston),f(engine,part_of,piston)])
+   => [f(carol,part_of,piston),f(engine,part_of,piston)]
+44. holds([f(wheel,part_of,piston),f(fleet,part_of,piston),f(bob,part_of,engine),f(carol,knows,piston),f(carol,knows,bob),f(alice,part_of,piston)], f(alice,knows,piston))
+   => error("existence_error(procedure,cases:holds/3)")
+45. why([f(bob,knows,piston),f(piston,part_of,wheel),f(wheel,knows,piston),f(piston,knows,carol),f(wheel,part_of,car)], f(piston,knows,carol))
+   => [f(piston,knows,carol)]
+46. closure([f(wheel,knows,alice),f(carol,part_of,piston),f(wheel,part_of,car),f(carol,part_of,engine),f(car,knows,alice),f(fleet,knows,engine)])
+   => [f(alice,knows,car),f(alice,knows,wheel),f(car,knows,alice),f(carol,part_of,engine),f(carol,part_of,piston),f(engine,knows,fleet),f(fleet,knows,engine),f(wheel,knows,alice),f(wheel,part_of,car)]
+47. holds([f(bob,knows,alice),f(bob,part_of,carol),f(bob,part_of,wheel),f(wheel,part_of,car),f(bob,knows,wheel),f(fleet,knows,alice)], f(car,part_of,bob))
+   => error("existence_error(procedure,cases:holds/3)")
+48. why([], f(a,knows,b))
+   => fails
+49. closure([f(carol,knows,car),f(wheel,part_of,car),f(wheel,part_of,carol),f(wheel,knows,fleet)])
+   => [f(car,knows,carol),f(carol,knows,car),f(fleet,knows,wheel),f(wheel,knows,fleet),f(wheel,part_of,car),f(wheel,part_of,carol)]
+50. holds([f(piston,knows,car)], f(fleet,part_of,piston))
+   => error("existence_error(procedure,cases:holds/3)")
+51. why([], f(a,knows,b))
+   => fails
+52. closure([f(fleet,knows,carol),f(carol,knows,car),f(wheel,part_of,car),f(piston,part_of,wheel),f(wheel,part_of,car),f(piston,knows,bob)])
+   => [f(bob,knows,piston),f(car,knows,carol),f(carol,knows,car),f(carol,knows,fleet),f(fleet,knows,carol),f(piston,knows,bob),f(piston,part_of,car),f(piston,part_of,wheel),f(wheel,part_of,car)]
+53. holds([f(piston,part_of,alice)], f(bob,knows,piston))
+   => error("existence_error(procedure,cases:holds/3)")
+54. why([f(wheel,part_of,car),f(piston,knows,fleet),f(alice,knows,bob),f(alice,knows,bob),f(engine,knows,bob),f(bob,knows,fleet)], f(bob,knows,alice))
+   => [f(alice,knows,bob)]
+55. closure([f(wheel,knows,alice),f(alice,part_of,fleet),f(piston,part_of,engine),f(car,part_of,bob)])
+   => [f(alice,knows,wheel),f(alice,part_of,fleet),f(car,part_of,bob),f(piston,part_of,engine),f(wheel,knows,alice)]
+56. holds([f(wheel,part_of,car)], f(bob,knows,car))
+   => error("existence_error(procedure,cases:holds/3)")
+57. why([f(alice,part_of,carol)], f(alice,part_of,carol))
+   => [f(alice,part_of,carol)]
+58. closure([f(piston,part_of,car),f(fleet,knows,engine),f(wheel,part_of,car),f(car,knows,bob),f(carol,part_of,bob),f(wheel,part_of,piston)])
+   => [f(bob,knows,car),f(car,knows,bob),f(carol,part_of,bob),f(engine,knows,fleet),f(fleet,knows,engine),f(piston,part_of,car),f(wheel,part_of,car),f(wheel,part_of,piston)]
+59. holds([f(fleet,part_of,wheel),f(alice,knows,wheel),f(alice,part_of,piston)], f(wheel,part_of,bob))
+   => error("existence_error(procedure,cases:holds/3)")
+60. why([f(wheel,part_of,engine),f(alice,part_of,wheel),f(engine,knows,fleet)], f(alice,part_of,wheel))
+   => [f(alice,part_of,wheel)]
+61. closure([f(alice,part_of,carol),f(fleet,knows,carol)])
+   => [f(alice,part_of,carol),f(carol,knows,fleet),f(fleet,knows,carol)]
+62. holds([], f(fleet,knows,carol))
+   => error("existence_error(procedure,cases:holds/3)")
+63. why([f(alice,part_of,wheel),f(car,knows,engine)], f(alice,part_of,wheel))
+   => [f(alice,part_of,wheel)]
+64. closure([f(wheel,part_of,car),f(alice,part_of,wheel),f(bob,part_of,engine),f(fleet,knows,car),f(wheel,part_of,fleet)])
+   => [f(alice,part_of,car),f(alice,part_of,fleet),f(alice,part_of,wheel),f(bob,part_of,engine),f(car,knows,fleet),f(fleet,knows,car),f(wheel,part_of,car),f(wheel,part_of,fleet)]
+65. holds([f(carol,part_of,engine),f(engine,knows,carol),f(car,knows,alice),f(car,knows,alice)], f(alice,part_of,fleet))
+   => error("existence_error(procedure,cases:holds/3)")
+66. why([f(carol,part_of,bob)], f(carol,part_of,bob))
+   => [f(carol,part_of,bob)]
+67. closure([f(engine,knows,piston),f(piston,knows,car),f(alice,part_of,engine),f(carol,knows,engine)])
+   => [f(alice,part_of,engine),f(car,knows,piston),f(carol,knows,engine),f(engine,knows,carol),f(engine,knows,piston),f(piston,knows,car),f(piston,knows,engine)]
+68. holds([f(bob,knows,carol),f(fleet,part_of,car),f(wheel,part_of,car),f(car,knows,wheel),f(wheel,part_of,engine),f(engine,part_of,alice)], f(fleet,part_of,car))
+   => error("existence_error(procedure,cases:holds/3)")
+69. why([f(piston,part_of,wheel),f(car,part_of,fleet),f(piston,knows,wheel)], f(car,part_of,fleet))
+   => [f(car,part_of,fleet)]
+70. closure([f(engine,part_of,alice),f(engine,knows,bob),f(fleet,part_of,alice),f(fleet,knows,alice),f(wheel,part_of,car),f(wheel,part_of,car)])
+   => [f(alice,knows,fleet),f(bob,knows,engine),f(engine,knows,bob),f(engine,part_of,alice),f(fleet,knows,alice),f(fleet,part_of,alice),f(wheel,part_of,car)]
+71. holds([f(fleet,part_of,piston)], f(wheel,part_of,car))
+   => error("existence_error(procedure,cases:holds/3)")
+72. why([f(car,part_of,carol),f(piston,knows,alice),f(engine,part_of,wheel),f(alice,knows,carol),f(engine,knows,car)], f(alice,knows,carol))
+   => [f(alice,knows,carol)]
+73. closure([f(fleet,part_of,piston),f(wheel,part_of,car),f(carol,knows,engine),f(wheel,part_of,car),f(carol,part_of,car)])
+   => [f(carol,knows,engine),f(carol,part_of,car),f(engine,knows,carol),f(fleet,part_of,piston),f(wheel,part_of,car)]
+74. holds([f(carol,knows,wheel),f(alice,part_of,engine)], f(wheel,part_of,car))
+   => error("existence_error(procedure,cases:holds/3)")
+75. why([f(carol,part_of,alice),f(piston,part_of,alice),f(wheel,part_of,car)], f(piston,part_of,alice))
+   => [f(piston,part_of,alice)]
+76. closure([])
+   => []
+77. holds([f(car,part_of,alice),f(piston,knows,carol),f(bob,part_of,wheel),f(carol,knows,engine)], f(alice,part_of,piston))
+   => error("existence_error(procedure,cases:holds/3)")
+78. why([f(car,part_of,carol)], f(car,part_of,carol))
+   => [f(car,part_of,carol)]
+79. closure([f(alice,part_of,wheel),f(wheel,part_of,car)])
+   => [f(alice,part_of,car),f(alice,part_of,wheel),f(wheel,part_of,car)]
+80. holds([], f(alice,knows,carol))
+   => error("existence_error(procedure,cases:holds/3)")
+81. why([f(piston,knows,bob),f(fleet,part_of,carol),f(wheel,part_of,car)], f(fleet,part_of,carol))
+   => [f(fleet,part_of,carol)]
+82. closure([f(alice,knows,carol),f(carol,knows,engine)])
+   => [f(alice,knows,carol),f(carol,knows,alice),f(carol,knows,engine),f(engine,knows,carol)]
+83. holds([], f(car,knows,wheel))
+   => error("existence_error(procedure,cases:holds/3)")
+84. why([], f(a,knows,b))
+   => fails
+85. closure([f(piston,knows,engine),f(engine,knows,car),f(piston,knows,alice),f(bob,part_of,carol),f(carol,part_of,wheel),f(alice,part_of,piston)])
+   => [f(alice,knows,piston),f(alice,part_of,piston),f(bob,part_of,carol),f(bob,part_of,wheel),f(car,knows,engine),f(carol,part_of,wheel),f(engine,knows,car),f(engine,knows,piston),f(piston,knows,alice),f(piston,knows,engine)]
+86. holds([f(carol,part_of,alice),f(piston,part_of,engine),f(alice,part_of,fleet),f(piston,part_of,carol),f(engine,part_of,fleet)], f(fleet,part_of,car))
+   => error("existence_error(procedure,cases:holds/3)")
+87. why([f(wheel,part_of,piston),f(wheel,part_of,car)], f(wheel,part_of,piston))
+   => [f(wheel,part_of,piston)]
+88. closure([])
+   => []
+89. holds([f(piston,part_of,engine)], f(engine,knows,wheel))
+   => error("existence_error(procedure,cases:holds/3)")
+90. why([f(car,part_of,fleet),f(wheel,part_of,piston)], f(car,part_of,fleet))
+   => [f(car,part_of,fleet)]
+91. closure([f(wheel,part_of,piston)])
+   => [f(wheel,part_of,piston)]
+92. holds([f(car,knows,engine),f(fleet,knows,car),f(piston,knows,fleet),f(fleet,knows,carol),f(fleet,part_of,piston),f(car,part_of,fleet)], f(fleet,part_of,bob))
+   => error("existence_error(procedure,cases:holds/3)")
+93. why([f(fleet,part_of,car)], f(fleet,part_of,car))
+   => [f(fleet,part_of,car)]
+94. closure([f(wheel,part_of,car),f(wheel,part_of,carol),f(engine,knows,bob),f(fleet,knows,piston),f(alice,knows,piston),f(car,knows,engine)])
+   => [f(alice,knows,piston),f(bob,knows,engine),f(car,knows,engine),f(engine,knows,bob),f(engine,knows,car),f(fleet,knows,piston),f(piston,knows,alice),f(piston,knows,fleet),f(wheel,part_of,car),f(wheel,part_of,carol)]
+95. holds([f(wheel,knows,car),f(carol,part_of,engine),f(engine,part_of,fleet)], f(alice,part_of,bob))
+   => error("existence_error(procedure,cases:holds/3)")
+96. why([f(wheel,part_of,car),f(piston,knows,bob),f(wheel,knows,engine),f(carol,part_of,piston)], f(bob,knows,piston))
+   => [f(piston,knows,bob)]
+97. closure([])
+   => []
+98. holds([f(carol,knows,piston),f(engine,part_of,bob),f(wheel,knows,bob)], f(carol,part_of,wheel))
+   => error("existence_error(procedure,cases:holds/3)")
+99. why([f(carol,knows,wheel),f(piston,part_of,fleet)], f(carol,knows,wheel))
+   => [f(carol,knows,wheel)]
+100. closure([])
+   => []
+101. holds([f(alice,knows,car),f(carol,part_of,piston),f(piston,part_of,fleet),f(bob,knows,wheel),f(alice,part_of,carol)], f(piston,knows,fleet))
+   => error("existence_error(procedure,cases:holds/3)")
+102. why([], f(a,knows,b))
+   => fails
+103. closure([f(piston,knows,fleet),f(wheel,part_of,car),f(fleet,part_of,engine)])
+   => [f(fleet,knows,piston),f(fleet,part_of,engine),f(piston,knows,fleet),f(wheel,part_of,car)]
+104. holds([], f(engine,knows,piston))
+   => error("existence_error(procedure,cases:holds/3)")
+105. why([f(engine,part_of,car),f(carol,part_of,piston),f(alice,part_of,engine)], f(alice,part_of,car))
+   => [f(alice,part_of,engine),f(engine,part_of,car)]
+106. closure([])
+   => []
+107. holds([f(engine,knows,bob)], f(wheel,part_of,car))
+   => error("existence_error(procedure,cases:holds/3)")
+108. why([f(carol,part_of,piston),f(alice,part_of,wheel),f(fleet,part_of,carol),f(carol,part_of,engine),f(wheel,part_of,car)], f(fleet,part_of,piston))
+   => [f(carol,part_of,piston),f(fleet,part_of,carol)]
+109. closure([f(piston,knows,wheel)])
+   => [f(piston,knows,wheel),f(wheel,knows,piston)]
+110. holds([f(car,knows,bob),f(wheel,part_of,car),f(wheel,part_of,car),f(piston,part_of,fleet),f(fleet,part_of,wheel),f(piston,part_of,engine)], f(alice,part_of,engine))
+   => error("existence_error(procedure,cases:holds/3)")
+111. why([], f(a,knows,b))
+   => fails
+112. closure([f(bob,part_of,piston),f(engine,part_of,piston)])
+   => [f(bob,part_of,piston),f(engine,part_of,piston)]
+113. holds([f(engine,part_of,bob)], f(car,knows,wheel))
+   => error("existence_error(procedure,cases:holds/3)")
+114. why([f(carol,knows,fleet),f(alice,part_of,engine),f(alice,part_of,wheel),f(wheel,part_of,car),f(engine,part_of,bob),f(carol,knows,car)], f(alice,part_of,wheel))
+   => [f(alice,part_of,wheel)]
+115. closure([f(wheel,part_of,car),f(engine,part_of,bob)])
+   => [f(engine,part_of,bob),f(wheel,part_of,car)]
+116. holds([f(piston,knows,wheel),f(carol,knows,bob),f(fleet,part_of,carol),f(alice,part_of,car),f(car,knows,alice),f(carol,knows,engine)], f(carol,knows,engine))
+   => error("existence_error(procedure,cases:holds/3)")
+117. why([f(wheel,part_of,fleet),f(alice,part_of,piston),f(engine,part_of,car)], f(wheel,part_of,fleet))
+   => [f(wheel,part_of,fleet)]
+118. closure([f(fleet,knows,carol),f(engine,part_of,car)])
+   => [f(carol,knows,fleet),f(engine,part_of,car),f(fleet,knows,carol)]
+119. holds([f(car,knows,alice),f(piston,knows,alice),f(wheel,part_of,carol),f(wheel,part_of,car),f(carol,knows,bob),f(bob,part_of,car)], f(car,part_of,engine))
+   => error("existence_error(procedure,cases:holds/3)")
+120. why([f(piston,knows,wheel),f(fleet,part_of,bob),f(carol,part_of,wheel),f(fleet,knows,bob),f(fleet,knows,car),f(wheel,knows,car)], f(fleet,knows,car))
+   => [f(fleet,knows,car)]
+121. closure([f(wheel,part_of,engine),f(wheel,knows,engine),f(wheel,part_of,car)])
+   => [f(engine,knows,wheel),f(wheel,knows,engine),f(wheel,part_of,car),f(wheel,part_of,engine)]
+122. holds([f(engine,knows,carol),f(wheel,part_of,fleet),f(wheel,part_of,car),f(car,knows,wheel)], f(alice,part_of,carol))
+   => error("existence_error(procedure,cases:holds/3)")
+123. why([f(car,part_of,bob),f(engine,knows,alice),f(car,knows,carol),f(bob,part_of,wheel)], f(carol,knows,car))
+   => [f(car,knows,carol)]
+124. closure([f(wheel,part_of,car)])
+   => [f(wheel,part_of,car)]
+125. holds([], f(car,knows,piston))
+   => error("existence_error(procedure,cases:holds/3)")
+126. why([f(piston,knows,bob),f(carol,part_of,alice),f(carol,part_of,engine),f(bob,knows,piston),f(wheel,part_of,car)], f(carol,part_of,alice))
+   => [f(carol,part_of,alice)]
+127. closure([f(engine,part_of,piston),f(engine,part_of,fleet),f(carol,part_of,fleet),f(engine,knows,piston),f(wheel,part_of,car),f(alice,part_of,fleet)])
+   => [f(alice,part_of,fleet),f(carol,part_of,fleet),f(engine,knows,piston),f(engine,part_of,fleet),f(engine,part_of,piston),f(piston,knows,engine),f(wheel,part_of,car)]
+128. holds([f(alice,knows,car)], f(engine,part_of,fleet))
+   => error("existence_error(procedure,cases:holds/3)")
+129. why([f(carol,part_of,alice),f(carol,knows,engine),f(fleet,part_of,engine),f(fleet,knows,piston),f(engine,knows,alice),f(engine,part_of,carol)], f(engine,knows,carol))
+   => [f(carol,knows,engine)]
+130. closure([f(wheel,part_of,car),f(bob,part_of,engine),f(wheel,knows,carol),f(alice,knows,car),f(car,knows,carol)])
+   => [f(alice,knows,car),f(bob,part_of,engine),f(car,knows,alice),f(car,knows,carol),f(carol,knows,car),f(carol,knows,wheel),f(wheel,knows,carol),f(wheel,part_of,car)]
+131. holds([f(bob,part_of,car),f(fleet,knows,car),f(car,knows,carol),f(fleet,knows,engine)], f(piston,part_of,alice))
+   => error("existence_error(procedure,cases:holds/3)")
+132. why([f(piston,part_of,engine)], f(piston,part_of,engine))
+   => [f(piston,part_of,engine)]
+133. closure([f(fleet,knows,piston),f(engine,part_of,wheel),f(car,knows,fleet),f(wheel,part_of,bob)])
+   => [f(car,knows,fleet),f(engine,part_of,bob),f(engine,part_of,wheel),f(fleet,knows,car),f(fleet,knows,piston),f(piston,knows,fleet),f(wheel,part_of,bob)]
+134. holds([f(car,part_of,wheel),f(wheel,part_of,carol),f(wheel,part_of,car)], f(fleet,knows,alice))
+   => error("existence_error(procedure,cases:holds/3)")
+135. why([f(engine,part_of,carol),f(fleet,part_of,car),f(car,knows,bob),f(wheel,knows,piston),f(wheel,part_of,piston),f(fleet,part_of,bob)], f(wheel,knows,piston))
+   => [f(wheel,knows,piston)]
+136. closure([f(fleet,part_of,carol)])
+   => [f(fleet,part_of,carol)]
+137. holds([f(car,part_of,engine),f(carol,part_of,car)], f(wheel,part_of,car))
+   => error("existence_error(procedure,cases:holds/3)")
+138. why([f(wheel,part_of,fleet),f(carol,part_of,wheel),f(wheel,part_of,piston),f(carol,part_of,wheel)], f(carol,part_of,fleet))
+   => [f(carol,part_of,wheel),f(wheel,part_of,fleet)]
+139. closure([f(wheel,part_of,car),f(carol,part_of,piston),f(alice,knows,engine),f(piston,part_of,engine),f(fleet,knows,engine),f(fleet,knows,alice)])
+   => [f(alice,knows,engine),f(alice,knows,fleet),f(carol,part_of,engine),f(carol,part_of,piston),f(engine,knows,alice),f(engine,knows,fleet),f(fleet,knows,alice),f(fleet,knows,engine),f(piston,part_of,engine),f(wheel,part_of,car)]
+140. holds([f(car,part_of,alice),f(carol,knows,fleet)], f(car,knows,fleet))
+   => error("existence_error(procedure,cases:holds/3)")
+141. why([f(engine,part_of,piston),f(piston,knows,carol),f(carol,part_of,engine),f(piston,part_of,alice)], f(carol,part_of,alice))
+   => [f(carol,part_of,engine),f(engine,part_of,piston),f(piston,part_of,alice)]
+142. closure([f(wheel,part_of,car),f(bob,knows,alice)])
+   => [f(alice,knows,bob),f(bob,knows,alice),f(wheel,part_of,car)]
+143. holds([f(wheel,part_of,car),f(piston,part_of,engine),f(piston,knows,bob),f(bob,part_of,alice)], f(alice,part_of,fleet))
+   => error("existence_error(procedure,cases:holds/3)")
+144. why([f(wheel,part_of,bob),f(car,knows,engine),f(carol,knows,fleet)], f(fleet,knows,carol))
+   => [f(carol,knows,fleet)]
+145. closure([f(wheel,part_of,piston),f(wheel,part_of,car),f(wheel,knows,fleet)])
+   => [f(fleet,knows,wheel),f(wheel,knows,fleet),f(wheel,part_of,car),f(wheel,part_of,piston)]
+146. holds([f(wheel,part_of,car),f(fleet,knows,wheel),f(wheel,part_of,car),f(wheel,part_of,car)], f(bob,knows,carol))
+   => error("existence_error(procedure,cases:holds/3)")
+147. why([f(car,knows,fleet)], f(fleet,knows,car))
+   => [f(car,knows,fleet)]
+148. closure([f(fleet,part_of,engine)])
+   => [f(fleet,part_of,engine)]
+149. holds([], f(car,part_of,piston))
+   => error("existence_error(procedure,cases:holds/3)")
+150. why([f(car,knows,piston),f(wheel,part_of,car)], f(car,knows,piston))
+   => [f(car,knows,piston)]
+151. closure([f(wheel,part_of,engine),f(wheel,part_of,car)])
+   => [f(wheel,part_of,car),f(wheel,part_of,engine)]
+152. holds([f(alice,knows,bob),f(car,part_of,engine),f(bob,part_of,wheel),f(fleet,knows,bob),f(wheel,part_of,car),f(piston,knows,alice)], f(carol,part_of,engine))
+   => error("existence_error(procedure,cases:holds/3)")
+153. why([f(fleet,part_of,wheel),f(wheel,part_of,bob),f(fleet,part_of,car),f(engine,part_of,car),f(wheel,part_of,car),f(piston,part_of,car)], f(engine,part_of,car))
+   => [f(engine,part_of,car)]
+154. closure([f(carol,knows,wheel),f(piston,knows,alice)])
+   => [f(alice,knows,piston),f(carol,knows,wheel),f(piston,knows,alice),f(wheel,knows,carol)]
+155. holds([], f(wheel,part_of,car))
+   => error("existence_error(procedure,cases:holds/3)")
+156. why([f(engine,part_of,car),f(engine,part_of,bob),f(wheel,part_of,car)], f(engine,part_of,bob))
+   => [f(engine,part_of,bob)]
+157. closure([f(piston,knows,engine)])
+   => [f(engine,knows,piston),f(piston,knows,engine)]
+158. holds([f(car,part_of,carol),f(alice,knows,car)], f(wheel,part_of,car))
+   => error("existence_error(procedure,cases:holds/3)")
+159. why([f(carol,part_of,alice),f(alice,part_of,wheel),f(bob,knows,engine)], f(alice,part_of,wheel))
+   => [f(alice,part_of,wheel)]
+160. closure([f(carol,knows,engine),f(alice,knows,car),f(alice,knows,car),f(car,part_of,bob),f(wheel,knows,fleet)])
+   => [f(alice,knows,car),f(car,knows,alice),f(car,part_of,bob),f(carol,knows,engine),f(engine,knows,carol),f(fleet,knows,wheel),f(wheel,knows,fleet)]
+161. holds([f(car,part_of,carol),f(engine,part_of,wheel)], f(carol,knows,car))
+   => error("existence_error(procedure,cases:holds/3)")
+162. why([f(wheel,part_of,car),f(carol,knows,fleet),f(carol,knows,bob),f(bob,knows,fleet),f(wheel,part_of,car),f(carol,part_of,piston)], f(carol,knows,bob))
+   => [f(carol,knows,bob)]
+163. closure([f(carol,part_of,car),f(bob,part_of,alice),f(bob,part_of,wheel),f(piston,knows,wheel),f(bob,part_of,car),f(piston,part_of,alice)])
+   => [f(bob,part_of,alice),f(bob,part_of,car),f(bob,part_of,wheel),f(carol,part_of,car),f(piston,knows,wheel),f(piston,part_of,alice),f(wheel,knows,piston)]
+164. holds([f(bob,knows,carol),f(engine,part_of,bob),f(fleet,knows,bob)], f(engine,knows,piston))
+   => error("existence_error(procedure,cases:holds/3)")
+165. why([], f(a,knows,b))
+   => fails
+166. closure([f(wheel,part_of,car)])
+   => [f(wheel,part_of,car)]
+167. holds([f(bob,part_of,wheel)], f(wheel,part_of,car))
+   => error("existence_error(procedure,cases:holds/3)")
+168. why([f(alice,part_of,engine),f(wheel,knows,car),f(carol,part_of,piston)], f(car,knows,wheel))
+   => [f(wheel,knows,car)]
+169. closure([f(engine,knows,car),f(alice,part_of,fleet),f(bob,part_of,wheel),f(wheel,part_of,car)])
+   => [f(alice,part_of,fleet),f(bob,part_of,car),f(bob,part_of,wheel),f(car,knows,engine),f(engine,knows,car),f(wheel,part_of,car)]
+170. holds([f(carol,knows,fleet),f(car,part_of,engine),f(wheel,part_of,car)], f(engine,knows,piston))
+   => error("existence_error(procedure,cases:holds/3)")
+171. why([f(piston,knows,fleet),f(wheel,part_of,car),f(engine,part_of,car),f(wheel,part_of,car),f(piston,part_of,alice),f(bob,part_of,car)], f(piston,knows,fleet))
+   => [f(piston,knows,fleet)]
+172. closure([f(wheel,part_of,car),f(engine,part_of,wheel),f(piston,knows,car),f(carol,knows,bob),f(wheel,knows,alice),f(fleet,knows,alice)])
+   => [f(alice,knows,fleet),f(alice,knows,wheel),f(bob,knows,carol),f(car,knows,piston),f(carol,knows,bob),f(engine,part_of,car),f(engine,part_of,wheel),f(fleet,knows,alice),f(piston,knows,car),f(wheel,knows,alice),f(wheel,part_of,car)]
+173. holds([f(car,part_of,piston),f(wheel,part_of,car),f(fleet,knows,engine),f(engine,knows,wheel),f(alice,part_of,bob),f(wheel,part_of,car)], f(piston,part_of,car))
+   => error("existence_error(procedure,cases:holds/3)")
+174. why([f(car,knows,engine),f(engine,knows,carol),f(alice,knows,engine)], f(engine,knows,car))
+   => [f(car,knows,engine)]
+175. closure([f(wheel,part_of,car),f(carol,knows,engine)])
+   => [f(carol,knows,engine),f(engine,knows,carol),f(wheel,part_of,car)]
+176. holds([f(wheel,knows,car),f(fleet,part_of,engine)], f(engine,part_of,piston))
+   => error("existence_error(procedure,cases:holds/3)")
+177. why([f(wheel,part_of,car),f(engine,part_of,car),f(wheel,part_of,carol),f(car,part_of,bob),f(wheel,part_of,engine)], f(engine,part_of,bob))
+   => [f(car,part_of,bob),f(engine,part_of,car)]
+178. closure([f(bob,part_of,piston),f(alice,part_of,piston),f(fleet,part_of,alice)])
+   => [f(alice,part_of,piston),f(bob,part_of,piston),f(fleet,part_of,alice),f(fleet,part_of,piston)]
+179. holds([f(alice,knows,fleet),f(alice,part_of,piston),f(carol,knows,car),f(piston,part_of,alice)], f(fleet,part_of,piston))
+   => error("existence_error(procedure,cases:holds/3)")
+180. why([f(wheel,part_of,piston),f(piston,part_of,wheel),f(piston,knows,car),f(carol,part_of,car),f(alice,part_of,carol)], f(piston,part_of,piston))
+   => [f(piston,part_of,wheel),f(wheel,part_of,piston)]
+181. closure([f(carol,knows,bob),f(wheel,part_of,alice),f(wheel,part_of,car),f(fleet,part_of,alice)])
+   => [f(bob,knows,carol),f(carol,knows,bob),f(fleet,part_of,alice),f(wheel,part_of,alice),f(wheel,part_of,car)]
+182. holds([f(bob,knows,car),f(wheel,part_of,car)], f(alice,part_of,fleet))
+   => error("existence_error(procedure,cases:holds/3)")
+183. why([], f(a,knows,b))
+   => fails
+184. closure([f(car,part_of,bob),f(wheel,part_of,car),f(car,part_of,alice)])
+   => [f(car,part_of,alice),f(car,part_of,bob),f(wheel,part_of,alice),f(wheel,part_of,bob),f(wheel,part_of,car)]
+185. holds([f(carol,knows,piston),f(wheel,part_of,car),f(wheel,knows,carol),f(wheel,part_of,car),f(wheel,part_of,fleet),f(wheel,part_of,car)], f(wheel,knows,fleet))
+   => error("existence_error(procedure,cases:holds/3)")
+186. why([f(wheel,part_of,car)], f(wheel,part_of,car))
+   => [f(wheel,part_of,car)]
+187. closure([f(piston,part_of,car),f(engine,knows,wheel),f(carol,part_of,fleet),f(piston,knows,fleet),f(engine,part_of,piston),f(bob,knows,engine)])
+   => [f(bob,knows,engine),f(carol,part_of,fleet),f(engine,knows,bob),f(engine,knows,wheel),f(engine,part_of,car),f(engine,part_of,piston),f(fleet,knows,piston),f(piston,knows,fleet),f(piston,part_of,car),f(wheel,knows,engine)]
+188. holds([f(wheel,part_of,bob),f(piston,part_of,carol),f(car,knows,alice),f(engine,part_of,wheel),f(wheel,part_of,bob),f(fleet,knows,piston)], f(car,part_of,engine))
+   => error("existence_error(procedure,cases:holds/3)")
+189. why([f(engine,part_of,piston),f(wheel,part_of,car),f(wheel,part_of,car),f(alice,part_of,bob),f(wheel,part_of,car)], f(wheel,part_of,car))
+   => [f(wheel,part_of,car)]
+190. closure([f(carol,knows,wheel),f(alice,knows,wheel)])
+   => [f(alice,knows,wheel),f(carol,knows,wheel),f(wheel,knows,alice),f(wheel,knows,carol)]
+191. holds([f(car,part_of,carol)], f(piston,part_of,alice))
+   => error("existence_error(procedure,cases:holds/3)")
+192. why([f(carol,part_of,piston),f(bob,part_of,alice),f(engine,part_of,wheel)], f(bob,part_of,alice))
+   => [f(bob,part_of,alice)]
+193. closure([f(piston,part_of,wheel),f(engine,knows,piston),f(carol,part_of,car),f(piston,part_of,bob),f(wheel,knows,piston),f(wheel,part_of,car)])
+   => [f(carol,part_of,car),f(engine,knows,piston),f(piston,knows,engine),f(piston,knows,wheel),f(piston,part_of,bob),f(piston,part_of,car),f(piston,part_of,wheel),f(wheel,knows,piston),f(wheel,part_of,car)]
+194. holds([], f(wheel,part_of,car))
+   => error("existence_error(procedure,cases:holds/3)")
+195. why([f(car,part_of,wheel),f(fleet,part_of,bob),f(fleet,part_of,wheel),f(fleet,knows,car),f(wheel,part_of,car)], f(fleet,part_of,wheel))
+   => [f(fleet,part_of,wheel)]
+196. closure([f(fleet,part_of,carol),f(fleet,part_of,alice),f(carol,part_of,fleet),f(alice,knows,piston)])
+   => [f(alice,knows,piston),f(carol,part_of,alice),f(carol,part_of,carol),f(carol,part_of,fleet),f(fleet,part_of,alice),f(fleet,part_of,carol),f(fleet,part_of,fleet),f(piston,knows,alice)]
+197. holds([f(engine,knows,bob),f(car,part_of,carol),f(car,part_of,piston),f(wheel,part_of,car)], f(carol,part_of,fleet))
+   => error("existence_error(procedure,cases:holds/3)")
+198. why([f(car,knows,carol),f(piston,knows,engine)], f(carol,knows,car))
+   => [f(car,knows,carol)]
+199. closure([])
+   => []
+200. holds([f(fleet,part_of,wheel),f(alice,part_of,engine),f(engine,part_of,bob)], f(piston,knows,car))
+   => error("existence_error(procedure,cases:holds/3)")
