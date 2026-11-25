@@ -29,3 +29,17 @@ theorem(idempotent_and_monotone) :- forall(facts(Fs), ( closure(Fs, C), closure(
 
 % 4. Every derived fact has a reason made only of stated facts.
 theorem(why_explains) :- forall(facts(Fs), ( closure(Fs, C), forall(member(F, C), ( why(Fs, F, W), subtract(W, Fs, []), holds(W, F) )) )).
+
+% 5. Relations can be declared: with the roles swapped (knows transitive, part_of symmetric)
+%    closure/3 matches the brute-force definition with the roles swapped, the default
+%    declaration gives exactly closure/2, and why/4 still explains every derived fact.
+theorem(declared_relations) :- forall(facts(Fs), (
+    D = rels([knows], [part_of]),
+    closure(D, Fs, C), naive_d(D, Fs, Must), msort(C, MC), msort(Must, MC),
+    closure(Fs, C0), closure(rels([part_of], [knows]), Fs, C0),
+    forall(member(F, C), ( why(D, Fs, F, W), subtract(W, Fs, []), holds(D, W, F) )) )).
+naive_d(D, Fs, N) :- findall(f(A, R, C2), ( member(R, [part_of, knows]), member(A, [a, b, c]), member(C2, [a, b, c]), reach_d(D, Fs, R, A, C2, 3) ), N0), sort(N0, N).
+reach_d(_, Fs, R, A, C, _) :- member(f(A, R, C), Fs).
+reach_d(rels(T, S), Fs, R, A, C, Dp) :- memberchk(R, S), Dp > 0, D1 is Dp - 1, reach_d(rels(T, S), Fs, R, C, A, D1).
+reach_d(rels(T, S), Fs, R, A, C, Dp) :- memberchk(R, T), Dp > 0, D1 is Dp - 1, member(B, [a, b, c]), reach_d(rels(T, S), Fs, R, A, B, D1), reach_d(rels(T, S), Fs, R, B, C, D1).
+
